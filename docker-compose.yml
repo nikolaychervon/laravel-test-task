@@ -1,0 +1,70 @@
+version: '3'
+
+services:
+    nginx:
+        image: nginx:latest
+        container_name: library_nginx
+        networks:
+            - main_network
+        ports:
+            - "80:80"
+            - "443:443"
+        volumes:
+            - ./docker/hosts:/etc/nginx/conf.d
+            - ./:/app
+            - ./logs/nginx:/var/log/nginx
+        depends_on:
+            - php
+    php:
+        build: ./docker/images/php
+        container_name: library_php
+        networks:
+            - main_network
+        depends_on:
+            - mysql
+            - elasticsearch
+        volumes:
+            - ./:/app
+    mysql:
+        image: mysql
+        container_name: library_mysql
+        command: --default-authentication-plugin=mysql_native_password
+        restart: always
+        networks:
+            - main_network
+        ports:
+            - "3306:3306"
+        volumes:
+            - ./logs/mysql:/var/log/mysql
+            - mysql_data:/var/lib/mysql
+        environment:
+            MYSQL_ROOT_PASSWORD: password
+            MYSQL_DATABASE: library
+            MYSQL_USER: library
+            MYSQL_PASSWORD: EMy8VE73
+
+    elasticsearch:
+        build: ./docker/images/elasticsearch
+        container_name: library_elasticsearch
+        restart: on-failure
+        volumes:
+            - elasticsearch_data:/usr/share/elasticsearch/data
+        ulimits:
+            memlock:
+                soft: -1
+                hard: -1
+        networks:
+            - main_network
+        environment:
+            - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+            - discovery.type=single-node
+        ports:
+            - "9200:9200"
+
+networks:
+    main_network:
+        driver: bridge
+
+volumes:
+    mysql_data:
+    elasticsearch_data:
