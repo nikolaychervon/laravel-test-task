@@ -30,5 +30,10 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 ADD php.ini /usr/local/etc/php/conf.d/40-custom.ini
 
 WORKDIR /app
+#
+##USER root
+#COPY . /app
+
+RUN chmod -Rf 777 /app
 
 CMD ["php-fpm"]
