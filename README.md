@@ -37,15 +37,14 @@
     DB_USERNAME=library
     DB_PASSWORD=EMy8VE73
     ```
-
-6. Убедитесь, что порт (3306) - свободен, с помощью команды:
-    ```shell
-    $ netstat -ntlp | grep 3306
-    ```
-
-7. Перейдите в PHP-контейнер:
+6. Перейдите в PHP-контейнер:
     ```shell
     $ docker exec -it library_php bash
+    ```
+
+7. Установите зависимости:
+    ```shell
+    $ composer install
     ```
 
 8. Сгенерируйте ключ приложения:
