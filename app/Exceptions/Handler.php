@@ -3,32 +3,25 @@
 namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Response;
 use Throwable;
+use Symfony\Component\HttpFoundation\Response as HttpResponse;
 
 class Handler extends ExceptionHandler
 {
     /**
-     * A list of exception types with their corresponding custom log levels.
-     *
-     * @var array<class-string<\Throwable>, \Psr\Log\LogLevel::*>
+     * @var array
      */
-    protected $levels = [
-        //
-    ];
+    protected $levels = [];
 
     /**
-     * A list of the exception types that are not reported.
-     *
-     * @var array<int, class-string<\Throwable>>
+     * @var array
      */
-    protected $dontReport = [
-        //
-    ];
+    protected $dontReport = [];
 
     /**
-     * A list of the inputs that are never flashed for validation exceptions.
-     *
-     * @var array<int, string>
+     * @var array
      */
     protected $dontFlash = [
         'current_password',
@@ -37,14 +30,25 @@ class Handler extends ExceptionHandler
     ];
 
     /**
-     * Register the exception handling callbacks for the application.
-     *
-     * @return void
+     * @param $request
+     * @param Throwable $e
+     * @return JsonResponse|Response|HttpResponse
+     * @throws Throwable
      */
-    public function register()
+    public function render($request, Throwable $e): Response|JsonResponse|HttpResponse
     {
-        $this->reportable(function (Throwable $e) {
-            //
-        });
+        if ($request->ajax() || $request->wantsJson()) {
+            $json = [
+                'success' => false,
+                'error' => [
+                    'code' => $code = $e->getCode(),
+                    'message' => $e->getMessage(),
+                ],
+            ];
+
+            return response()->json($json, $code);
+        }
+
+        return parent::render($request, $e);
     }
 }
