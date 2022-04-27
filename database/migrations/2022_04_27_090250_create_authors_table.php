@@ -16,7 +16,7 @@ return new class extends Migration {
             $table->id();
             $table->string('name', 100);
             $table->string('surname', 100);
-            $table->dateTime('birth_date');
+            $table->date('birth_date');
             $table->softDeletes();
             $table->timestamps();
         });
