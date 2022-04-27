@@ -47,19 +47,19 @@ services:
         build: ./docker/images/elasticsearch
         container_name: library_elasticsearch
         restart: on-failure
-        volumes:
-            - elasticsearch_data:/usr/share/elasticsearch/data
-        ulimits:
-            memlock:
-                soft: -1
-                hard: -1
         networks:
             - main_network
+        volumes:
+            - elasticsearch_data:/usr/share/elasticsearch/data
         environment:
             - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
             - discovery.type=single-node
         ports:
             - "9200:9200"
+        ulimits:
+            memlock:
+                soft: -1
+                hard: -1
 
 networks:
     main_network:
