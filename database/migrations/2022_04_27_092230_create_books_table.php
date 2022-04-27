@@ -18,6 +18,7 @@ return new class extends Migration {
             $table->string('description', 255);
             $table->dateTime('release_date');
             $table->unsignedBigInteger('author_id');
+            $table->softDeletes();
             $table->timestamps();
 
             $table->foreign('author_id')
