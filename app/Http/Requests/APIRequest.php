@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Http\Response\APIResponse;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
@@ -16,13 +17,9 @@ abstract class APIRequest extends FormRequest
     {
         $errors = $this->convertErrors($validator->errors()->toArray());
 
-        $response = [
-            'success' => false,
-            'message' => 'Validation error.',
-            'data' => $errors
-        ];
+        $response = APIResponse::error('Validation error.', 422, $errors);
 
-        throw new HttpResponseException(response()->json($response, 422));
+        throw new HttpResponseException($response);
     }
 
     /**

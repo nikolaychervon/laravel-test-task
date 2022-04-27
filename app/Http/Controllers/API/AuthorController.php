@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Author\AuthorCreateRequest;
 use App\Http\Resources\Author\AuthorCollection;
 use App\Http\Resources\Author\AuthorResource;
+use App\Http\Response\APIResponse;
 use App\Models\Author;
 use Illuminate\Http\JsonResponse;
 use Spatie\DataTransferObject\Exceptions\UnknownProperties;
@@ -23,11 +24,10 @@ class AuthorController extends Controller
      */
     public function index(GetAuthorsActionContract $getAuthors): JsonResponse
     {
-        return response()->json([
-            'success' => true,
-            'message' => 'Authors list successfully received.',
-            'data' => new AuthorCollection($getAuthors()),
-        ]);
+        return APIResponse::success(
+            'Authors list successfully received.',
+            new AuthorCollection($getAuthors())
+        );
     }
 
     /**
@@ -41,12 +41,12 @@ class AuthorController extends Controller
     public function store(AuthorCreateRequest $request, CreateAuthorActionContract $createAuthor): JsonResponse
     {
         $dto = new CreateAuthorDTO($request->toArray());
+        $resource = new AuthorResource($createAuthor($dto));
 
-        return response()->json([
-            'success' => true,
-            'message' => 'Author successfully created.',
-            'author' => new AuthorResource($createAuthor($dto)),
-        ]);
+        return APIResponse::success(
+            'Author successfully created.',
+            $resource, 201
+        );
     }
 
     /**
@@ -57,10 +57,9 @@ class AuthorController extends Controller
      */
     public function show(Author $author): JsonResponse
     {
-        return response()->json([
-            'success' => true,
-            'message' => 'Author successfully received.',
-            'author' => new AuthorResource($author),
-        ]);
+        return APIResponse::success(
+            'Author successfully received.',
+            new AuthorResource($author)
+        );
     }
 }
