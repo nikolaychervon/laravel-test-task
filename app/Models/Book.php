@@ -4,12 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-/**
- * @property int $id
- */
-class Author extends Model
+class Book extends Model
 {
     use HasFactory;
 
@@ -24,12 +21,12 @@ class Author extends Model
     protected $guarded = [];
 
     /**
-     * Книги
+     * Автор книги
      *
-     * @return HasMany
+     * @return BelongsTo
      */
-    public function books(): HasMany
+    public function author(): BelongsTo
     {
-        return $this->hasMany(Book::class);
+        return $this->belongsTo(Author::class);
     }
 }
