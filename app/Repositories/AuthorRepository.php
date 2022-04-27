@@ -31,6 +31,6 @@ class AuthorRepository extends AbstractRepository
     public function getList(): Paginator
     {
         $perPage = config('pagination.authors.per_page');
-        return $this->query()->simplePaginate($perPage);
+        return $this->query()->paginate($perPage);
     }
 }
