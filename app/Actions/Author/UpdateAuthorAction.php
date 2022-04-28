@@ -3,7 +3,7 @@
 namespace App\Actions\Author;
 
 use App\Contracts\Actions\Author\UpdateAuthorActionContract;
-use App\DTO\Author\AuthorDTO;
+use App\DTO\AuthorDTO;
 use App\Models\Author;
 
 class UpdateAuthorAction implements UpdateAuthorActionContract

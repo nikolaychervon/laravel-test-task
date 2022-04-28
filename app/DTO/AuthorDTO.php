@@ -1,11 +1,14 @@
 <?php
 
-namespace App\DTO\Author;
+namespace App\DTO;
 
+use App\DTO\Traits\HasNullable;
 use Spatie\DataTransferObject\DataTransferObject;
 
 class AuthorDTO extends DataTransferObject
 {
+    use HasNullable;
+
     /**
      * Имя
      *

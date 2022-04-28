@@ -6,7 +6,7 @@ use App\Contracts\Actions\Author\CreateAuthorActionContract;
 use App\Contracts\Actions\Author\GetAuthorsActionContract;
 use App\Contracts\Actions\Author\RemoveAuthorActionContract;
 use App\Contracts\Actions\Author\UpdateAuthorActionContract;
-use App\DTO\Author\AuthorDTO;
+use App\DTO\AuthorDTO;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Author\AuthorCreateRequest;
 use App\Http\Requests\Author\AuthorUpdateRequest;

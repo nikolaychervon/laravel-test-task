@@ -2,12 +2,17 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Contracts\Actions\Book\CreateBookActionContract;
 use App\Contracts\Actions\Book\GetBooksActionContract;
+use App\DTO\BookDTO;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Book\BookCreateRequest;
 use App\Http\Resources\Book\BookCollection;
+use App\Http\Resources\Book\BookResource;
 use App\Http\Response\APIResponse;
 use App\Models\Author;
 use Illuminate\Http\JsonResponse;
+use Spatie\DataTransferObject\Exceptions\UnknownProperties;
 
 class BookController extends Controller
 {
@@ -42,10 +47,23 @@ class BookController extends Controller
         );
     }
 
-//    public function store()
-//    {
-//        //
-//    }
+    /**
+     * Создать новую книгу
+     *
+     * @param BookCreateRequest $request
+     * @param CreateBookActionContract $createBook
+     * @return JsonResponse
+     * @throws UnknownProperties
+     */
+    public function store(BookCreateRequest $request, CreateBookActionContract $createBook): JsonResponse
+    {
+        $dto = new BookDTO($request->toArray());
+
+        return APIResponse::success(
+            "Book successfully created.",
+            new BookResource($createBook($dto)), 201
+        );
+    }
 
 //    public function show()
 //    {

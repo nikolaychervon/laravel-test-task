@@ -6,11 +6,13 @@ use App\Actions\Author\CreateAuthorAction;
 use App\Actions\Author\GetAuthorsAction;
 use App\Actions\Author\RemoveAuthorAction;
 use App\Actions\Author\UpdateAuthorAction;
+use App\Actions\Book\CreateBookAction;
 use App\Actions\Book\GetBooksAction;
 use App\Contracts\Actions\Author\CreateAuthorActionContract;
 use App\Contracts\Actions\Author\GetAuthorsActionContract;
 use App\Contracts\Actions\Author\RemoveAuthorActionContract;
 use App\Contracts\Actions\Author\UpdateAuthorActionContract;
+use App\Contracts\Actions\Book\CreateBookActionContract;
 use App\Contracts\Actions\Book\GetBooksActionContract;
 use Illuminate\Support\ServiceProvider;
 
@@ -42,5 +44,6 @@ class ActionServiceProvider extends ServiceProvider
     private function registerBookActions(): void
     {
         $this->app->singleton(GetBooksActionContract::class, GetBooksAction::class);
+        $this->app->singleton(CreateBookActionContract::class, CreateBookAction::class);
     }
 }
