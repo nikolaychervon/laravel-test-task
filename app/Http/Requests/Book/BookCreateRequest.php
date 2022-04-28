@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Book;
 
 use App\Http\Requests\APIRequest;
+use Illuminate\Validation\Rule;
 
 class BookCreateRequest extends APIRequest
 {
@@ -27,7 +28,7 @@ class BookCreateRequest extends APIRequest
             'title' => 'required|string|max:100',
             'description' => 'required|string|max:255',
             'release_date' => 'required|date_format:Y-m-d',
-            'author_id' => 'required|exists:authors,id',
+            'author_id' => ['required', Rule::exists('authors', 'id')->withoutTrashed()],
         ];
     }
 }

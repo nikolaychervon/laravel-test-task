@@ -13,7 +13,7 @@ trait HasLeastOneParameter
     protected function passedValidation(): void
     {
         if (empty($this->validated())) {
-            $response = APIResponse::error('Pass at least 1 parameter.', 400);
+            $response = APIResponse::error(__('api.errors.min_one_parameter'), 400);
             throw new HttpResponseException($response);
         }
     }

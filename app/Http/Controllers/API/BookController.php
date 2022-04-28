@@ -29,7 +29,7 @@ class BookController extends Controller
     public function index(GetBooksActionContract $getBooks): JsonResponse
     {
         return APIResponse::success(
-            'Books list successfully received.',
+            __('api.books.index'),
             new BookCollection($getBooks())
         );
     }
@@ -46,7 +46,7 @@ class BookController extends Controller
         $resource = new BookCollection($getBooks($author));
 
         return APIResponse::success(
-            "Books list for '{$author->name}' successfully received.",
+            __('api.books.index_by_author'),
             $resource->except(['author'])
         );
     }
@@ -64,7 +64,7 @@ class BookController extends Controller
         $dto = new BookDTO($request->validated());
 
         return APIResponse::success(
-            "Book successfully created.",
+            __('api.books.store'),
             new BookResource($createBook($dto)), 201
         );
     }
@@ -77,7 +77,7 @@ class BookController extends Controller
      */
     public function show(Book $book): JsonResponse
     {
-        return APIResponse::success("Book successfully received.", new BookResource($book));
+        return APIResponse::success(__('api.books.show'), new BookResource($book));
     }
 
     /**
@@ -93,7 +93,7 @@ class BookController extends Controller
     {
         $dto = new BookDTO($request->validated());
         $resource = new BookResource($updateBook($book, $dto));
-        return APIResponse::success('Book successfully updated.', $resource);
+        return APIResponse::success(__('api.books.update'), $resource);
     }
 
     /**
@@ -106,6 +106,6 @@ class BookController extends Controller
     public function destroy(Book $book, RemoveBookActionContract $removeBook): JsonResponse
     {
         $removeBook($book);
-        return APIResponse::success("Book successfully removed.");
+        return APIResponse::success(__('api.books.destroy'));
     }
 }

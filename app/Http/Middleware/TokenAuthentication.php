@@ -23,6 +23,6 @@ class TokenAuthentication
             return $next($request);
         }
 
-        throw new UnauthorizedException('User not authenticated.', 401);
+        throw new UnauthorizedException(__('api.errors.user_unauthorized'), 401);
     }
 }

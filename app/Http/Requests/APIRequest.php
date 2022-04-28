@@ -16,7 +16,7 @@ abstract class APIRequest extends FormRequest
     protected function failedValidation(Validator $validator): void
     {
         $errors = $this->convertErrors($validator->errors()->toArray());
-        $response = APIResponse::error('Validation error.', 422, $errors);
+        $response = APIResponse::error(__('api.errors.validation_error'), 422, $errors);
         throw new HttpResponseException($response);
     }
 

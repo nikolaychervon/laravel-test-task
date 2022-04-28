@@ -28,7 +28,7 @@ class AuthorController extends Controller
     public function index(GetAuthorsActionContract $getAuthors): JsonResponse
     {
         return APIResponse::success(
-            'Authors list successfully received.',
+            __('api.authors.index'),
             new AuthorCollection($getAuthors())
         );
     }
@@ -47,7 +47,7 @@ class AuthorController extends Controller
         $resource = new AuthorResource($createAuthor($dto));
 
         return APIResponse::success(
-            'Author successfully created.',
+            __('api.authors.store'),
             $resource, 201
         );
     }
@@ -61,7 +61,7 @@ class AuthorController extends Controller
     public function show(Author $author): JsonResponse
     {
         return APIResponse::success(
-            'Author successfully received.',
+            __('api.authors.show'),
             new AuthorResource($author)
         );
     }
@@ -79,7 +79,7 @@ class AuthorController extends Controller
     {
         $dto = new AuthorDTO($request->validated());
         $resource = new AuthorResource($updateAuthor($author, $dto));
-        return APIResponse::success('Author successfully updated.', $resource);
+        return APIResponse::success(__('api.authors.update'), $resource);
     }
 
     /**
@@ -92,6 +92,6 @@ class AuthorController extends Controller
     public function destroy(Author $author, RemoveAuthorActionContract $removeAuthor): JsonResponse
     {
         $removeAuthor($author);
-        return APIResponse::success('Author successfully removed.');
+        return APIResponse::success(__('api.authors.destroy'));
     }
 }

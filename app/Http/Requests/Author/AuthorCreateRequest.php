@@ -3,12 +3,9 @@
 namespace App\Http\Requests\Author;
 
 use App\Http\Requests\APIRequest;
-use App\Http\Requests\Traits\HasLeastOneParameter;
 
 class AuthorCreateRequest extends APIRequest
 {
-    use HasLeastOneParameter;
-
     /**
      * Determine if the user is authorized to make this request.
      *
