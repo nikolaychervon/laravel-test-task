@@ -2,7 +2,7 @@
 
 namespace App\Actions\Author;
 
-use App\Contracts\Actions\GetAuthorsActionContract;
+use App\Contracts\Actions\Author\GetAuthorsActionContract;
 use App\Repositories\AuthorRepository;
 use Illuminate\Contracts\Pagination\Paginator;
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Contracts\Actions;
+namespace App\Contracts\Actions\Author;
 
 use App\DTO\Author\AuthorDTO;
 use App\Models\Author;

@@ -2,7 +2,7 @@
 
 namespace App\Actions\Author;
 
-use App\Contracts\Actions\RemoveAuthorActionContract;
+use App\Contracts\Actions\Author\RemoveAuthorActionContract;
 use App\Models\Author;
 
 class RemoveAuthorAction implements RemoveAuthorActionContract

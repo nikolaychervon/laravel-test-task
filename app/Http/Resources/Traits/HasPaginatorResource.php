@@ -6,6 +6,8 @@ use Illuminate\Contracts\Pagination\Paginator;
 
 trait HasPaginatorResource
 {
+    use Filtratable;
+
     /**
      * @param Paginator $paginator
      * @return array
@@ -13,7 +15,7 @@ trait HasPaginatorResource
     private function getPaginationResponse(Paginator $paginator): array
     {
         return [
-            'items' => $paginator->items(),
+            'items' => $this->processCollection($paginator->items()),
             'meta' => [
                 'total' => $paginator->total(),
                 'count' => $paginator->count(),

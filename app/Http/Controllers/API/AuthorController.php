@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\API;
 
-use App\Contracts\Actions\CreateAuthorActionContract;
-use App\Contracts\Actions\GetAuthorsActionContract;
-use App\Contracts\Actions\RemoveAuthorActionContract;
-use App\Contracts\Actions\UpdateAuthorActionContract;
+use App\Contracts\Actions\Author\CreateAuthorActionContract;
+use App\Contracts\Actions\Author\GetAuthorsActionContract;
+use App\Contracts\Actions\Author\RemoveAuthorActionContract;
+use App\Contracts\Actions\Author\UpdateAuthorActionContract;
 use App\DTO\Author\AuthorDTO;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Author\AuthorCreateRequest;

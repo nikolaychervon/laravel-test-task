@@ -2,7 +2,7 @@
 
 namespace App\Actions\Author;
 
-use App\Contracts\Actions\CreateAuthorActionContract;
+use App\Contracts\Actions\Author\CreateAuthorActionContract;
 use App\DTO\Author\AuthorDTO;
 use App\Models\Author;
 use Illuminate\Database\Eloquent\Model;

@@ -2,7 +2,7 @@
 
 namespace App\Actions\Author;
 
-use App\Contracts\Actions\UpdateAuthorActionContract;
+use App\Contracts\Actions\Author\UpdateAuthorActionContract;
 use App\DTO\Author\AuthorDTO;
 use App\Models\Author;
 
