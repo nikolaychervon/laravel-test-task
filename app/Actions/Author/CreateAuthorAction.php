@@ -3,7 +3,7 @@
 namespace App\Actions\Author;
 
 use App\Contracts\Actions\CreateAuthorActionContract;
-use App\DTO\Author\CreateAuthorDTO;
+use App\DTO\Author\AuthorDTO;
 use App\Models\Author;
 use Illuminate\Database\Eloquent\Model;
 
@@ -12,10 +12,10 @@ class CreateAuthorAction implements CreateAuthorActionContract
     /**
      * Создание нового автора
      *
-     * @param CreateAuthorDTO $DTO
+     * @param AuthorDTO $DTO
      * @return ?Author
      */
-    public function __invoke(CreateAuthorDTO $DTO): Model|Author
+    public function __invoke(AuthorDTO $DTO): Model|Author
     {
         return Author::query()->create($DTO->toArray());
     }

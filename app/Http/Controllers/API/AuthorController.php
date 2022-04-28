@@ -4,9 +4,12 @@ namespace App\Http\Controllers\API;
 
 use App\Contracts\Actions\CreateAuthorActionContract;
 use App\Contracts\Actions\GetAuthorsActionContract;
-use App\DTO\Author\CreateAuthorDTO;
+use App\Contracts\Actions\RemoveAuthorActionContract;
+use App\Contracts\Actions\UpdateAuthorActionContract;
+use App\DTO\Author\AuthorDTO;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Author\AuthorCreateRequest;
+use App\Http\Requests\Author\AuthorUpdateRequest;
 use App\Http\Resources\Author\AuthorCollection;
 use App\Http\Resources\Author\AuthorResource;
 use App\Http\Response\APIResponse;
@@ -40,7 +43,7 @@ class AuthorController extends Controller
      */
     public function store(AuthorCreateRequest $request, CreateAuthorActionContract $createAuthor): JsonResponse
     {
-        $dto = new CreateAuthorDTO($request->toArray());
+        $dto = new AuthorDTO($request->toArray());
         $resource = new AuthorResource($createAuthor($dto));
 
         return APIResponse::success(
@@ -61,5 +64,34 @@ class AuthorController extends Controller
             'Author successfully received.',
             new AuthorResource($author)
         );
+    }
+
+    /**
+     * Обновить автора по ID
+     *
+     * @param AuthorUpdateRequest $request
+     * @param Author $author
+     * @param UpdateAuthorActionContract $updateAuthor
+     * @return JsonResponse
+     * @throws UnknownProperties
+     */
+    public function update(AuthorUpdateRequest $request, Author $author, UpdateAuthorActionContract $updateAuthor): JsonResponse
+    {
+        $dto = new AuthorDTO($request->toArray());
+        $resource = new AuthorResource($updateAuthor($author, $dto));
+        return APIResponse::success('Author successfully updated.', $resource);
+    }
+
+    /**
+     * Удалить автора по ID
+     *
+     * @param Author $author
+     * @param RemoveAuthorActionContract $removeAuthor
+     * @return JsonResponse
+     */
+    public function destroy(Author $author, RemoveAuthorActionContract $removeAuthor): JsonResponse
+    {
+        $removeAuthor($author);
+        return APIResponse::success('Author successfully removed.');
     }
 }
