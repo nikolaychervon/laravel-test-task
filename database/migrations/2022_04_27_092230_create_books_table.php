@@ -14,10 +14,11 @@ return new class extends Migration {
     {
         Schema::create('books', function (Blueprint $table) {
             $table->id();
-            $table->string('title', 255);
+            $table->string('title', 100);
             $table->string('description', 255);
-            $table->dateTime('release_date');
+            $table->date('release_date');
             $table->unsignedBigInteger('author_id');
+            $table->softDeletes();
             $table->timestamps();
 
             $table->foreign('author_id')
