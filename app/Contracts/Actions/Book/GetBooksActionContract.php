@@ -11,7 +11,8 @@ interface GetBooksActionContract
      * Получить список книг
      *
      * @param Author|null $author
+     * @param string|null $search
      * @return Paginator
      */
-    public function __invoke(?Author $author = null): Paginator;
+    public function __invoke(?string $search = null, ?Author $author = null): Paginator;
 }

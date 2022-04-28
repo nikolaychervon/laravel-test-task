@@ -7,7 +7,7 @@ use Illuminate\Database\Seeder;
 
 class BookSeeder extends Seeder
 {
-    const COUNT = 24;
+    const COUNT = 4;
 
     /**
      * Run the database seeds.

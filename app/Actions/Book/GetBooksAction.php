@@ -25,15 +25,12 @@ class GetBooksAction implements GetBooksActionContract
     /**
      * Получить список книг
      *
+     * @param string|null $search
      * @param Author|null $author
      * @return Paginator
      */
-    public function __invoke(?Author $author = null): Paginator
+    public function __invoke(?string $search = null, ?Author $author = null): Paginator
     {
-        if ($author) {
-            return $this->books->getListByAuthorID($author->id);
-        }
-
-        return $this->books->getList();
+        return $this->books->getList($search, $author?->id);
     }
 }

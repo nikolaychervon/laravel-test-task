@@ -17,8 +17,7 @@ use App\Models\Author;
 use App\Models\Book;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\Gate;
-use Illuminate\Support\Js;
+use Illuminate\Http\Request;
 use Spatie\DataTransferObject\Exceptions\UnknownProperties;
 
 class BookController extends Controller
@@ -26,27 +25,33 @@ class BookController extends Controller
     /**
      * Получить список книг
      *
+     * @param Request $request
      * @param GetBooksActionContract $getBooks
      * @return JsonResponse
      */
-    public function index(GetBooksActionContract $getBooks): JsonResponse
+    public function index(Request $request, GetBooksActionContract $getBooks): JsonResponse
     {
-        return APIResponse::success(
-            __('api.books.index'),
-            new BookCollection($getBooks())
-        );
+        $resource = new BookCollection($getBooks(
+            $request->get('search')
+        ));
+
+        return APIResponse::success(__('api.books.index'), $resource);
     }
 
     /**
      * Получить список книг для автора
      *
+     * @param Request $request
      * @param Author $author
      * @param GetBooksActionContract $getBooks
      * @return JsonResponse
      */
-    public function indexByAuthor(Author $author, GetBooksActionContract $getBooks): JsonResponse
+    public function indexByAuthor(Request $request, Author $author, GetBooksActionContract $getBooks): JsonResponse
     {
-        $resource = new BookCollection($getBooks($author));
+        $resource = new BookCollection($getBooks(
+            $request->get('search'),
+            $author
+        ));
 
         return APIResponse::success(
             __('api.books.index_by_author'),
