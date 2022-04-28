@@ -43,7 +43,7 @@ class AuthorController extends Controller
      */
     public function store(AuthorCreateRequest $request, CreateAuthorActionContract $createAuthor): JsonResponse
     {
-        $dto = new AuthorDTO($request->toArray());
+        $dto = new AuthorDTO($request->validated());
         $resource = new AuthorResource($createAuthor($dto));
 
         return APIResponse::success(
@@ -77,7 +77,7 @@ class AuthorController extends Controller
      */
     public function update(AuthorUpdateRequest $request, Author $author, UpdateAuthorActionContract $updateAuthor): JsonResponse
     {
-        $dto = new AuthorDTO($request->toArray());
+        $dto = new AuthorDTO($request->validated());
         $resource = new AuthorResource($updateAuthor($author, $dto));
         return APIResponse::success('Author successfully updated.', $resource);
     }

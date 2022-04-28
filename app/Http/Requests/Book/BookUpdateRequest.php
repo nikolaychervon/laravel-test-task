@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Requests\Author;
+namespace App\Http\Requests\Book;
 
 use App\Http\Requests\APIRequest;
 use App\Http\Requests\Traits\HasLeastOneParameter;
 
-class AuthorCreateRequest extends APIRequest
+class BookUpdateRequest extends APIRequest
 {
     use HasLeastOneParameter;
 
@@ -27,9 +27,10 @@ class AuthorCreateRequest extends APIRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string|max:100',
-            'surname' => 'required|string|max:100',
-            'birth_date' => 'required|date_format:Y-m-d',
+            'title' => 'sometimes|required|string|max:100',
+            'description' => 'sometimes|required|string|max:255',
+            'release_date' => 'sometimes|required|date_format:Y-m-d',
+            'author_id' => 'sometimes|required|exists:authors,id',
         ];
     }
 }

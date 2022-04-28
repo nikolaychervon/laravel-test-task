@@ -9,6 +9,5 @@ Route::middleware('auth.token')->group(function () {
     Route::apiResource('authors', AuthorController::class);
     Route::apiResource('books', BookController::class);
 
-    // Переназначение метода для роута (index -> indexByAuthor)
     Route::get('authors/{author}/books', [BookController::class, 'indexByAuthor']);
 });

@@ -4,13 +4,17 @@ namespace App\Http\Controllers\API;
 
 use App\Contracts\Actions\Book\CreateBookActionContract;
 use App\Contracts\Actions\Book\GetBooksActionContract;
+use App\Contracts\Actions\Book\RemoveBookActionContract;
+use App\Contracts\Actions\Book\UpdateBookActionContract;
 use App\DTO\BookDTO;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Book\BookCreateRequest;
+use App\Http\Requests\Book\BookUpdateRequest;
 use App\Http\Resources\Book\BookCollection;
 use App\Http\Resources\Book\BookResource;
 use App\Http\Response\APIResponse;
 use App\Models\Author;
+use App\Models\Book;
 use Illuminate\Http\JsonResponse;
 use Spatie\DataTransferObject\Exceptions\UnknownProperties;
 
@@ -57,7 +61,7 @@ class BookController extends Controller
      */
     public function store(BookCreateRequest $request, CreateBookActionContract $createBook): JsonResponse
     {
-        $dto = new BookDTO($request->toArray());
+        $dto = new BookDTO($request->validated());
 
         return APIResponse::success(
             "Book successfully created.",
@@ -65,18 +69,43 @@ class BookController extends Controller
         );
     }
 
-//    public function show()
-//    {
-//        //
-//    }
-//
-//    public function update()
-//    {
-//        //
-//    }
-//
-//    public function destroy()
-//    {
-//        //
-//    }
+    /**
+     * Получить книгу
+     *
+     * @param Book $book
+     * @return JsonResponse
+     */
+    public function show(Book $book): JsonResponse
+    {
+        return APIResponse::success("Book successfully received.", new BookResource($book));
+    }
+
+    /**
+     * Обновить книгу
+     *
+     * @param BookUpdateRequest $request
+     * @param Book $book
+     * @param UpdateBookActionContract $updateBook
+     * @return JsonResponse
+     * @throws UnknownProperties
+     */
+    public function update(BookUpdateRequest $request, Book $book, UpdateBookActionContract $updateBook): JsonResponse
+    {
+        $dto = new BookDTO($request->validated());
+        $resource = new BookResource($updateBook($book, $dto));
+        return APIResponse::success('Book successfully updated.', $resource);
+    }
+
+    /**
+     * Удалить книгу
+     *
+     * @param Book $book
+     * @param RemoveBookActionContract $removeBook
+     * @return JsonResponse
+     */
+    public function destroy(Book $book, RemoveBookActionContract $removeBook): JsonResponse
+    {
+        $removeBook($book);
+        return APIResponse::success("Book successfully removed.");
+    }
 }
