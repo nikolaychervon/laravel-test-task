@@ -35,33 +35,27 @@ class BookRepository extends AbstractRepository
      */
     public function getList(?string $search = null, ?int $authorID = null): Paginator
     {
-        $query = $this->query();
-
-        if ($authorID) {
-            $query = $query->where('author_id', $authorID);
-        }
-
-        if ($search) {
-            $query = $this->searchQuery($query, $search);
-        }
-
-        return $query->latest()->paginate($this->perPage);
+        return $this->query()
+            ->when($authorID, fn($query) => $query->where('author_id', $authorID))
+            ->when($search, fn($query) => $this->searchQuery($query, $search))
+            ->latest()
+            ->paginate($this->perPage);
     }
 
     /**
      * Найти книгу
      *
      * @param Builder $builder
-     * @param string $text
-     * @return Builder
+     * @param string $search
+     * @return void
      */
-    private function searchQuery(Builder $builder, string $text): Builder
+    private function searchQuery(Builder $builder, string $search): void
     {
-        // Был вариант, сделать через CONCAT(title, description, release_date) like %search%.
-        // Прочитал, что такой способ ухудшает производительность.
-        return $builder
-            ->where('title', 'like', "%$text%")
-            ->orWhere('description', 'like', "%$text%")
-            ->orWhere('release_date', 'like', "%$text%");
+        $builder->where(function ($query) use ($search) {
+            $query
+                ->where('title', 'like', "%$search%")
+                ->orWhere('description', 'like', "%$search%")
+                ->orWhere('release_date', 'like', "%$search%");
+        });
     }
 }
