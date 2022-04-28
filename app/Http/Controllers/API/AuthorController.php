@@ -14,7 +14,10 @@ use App\Http\Resources\Author\AuthorCollection;
 use App\Http\Resources\Author\AuthorResource;
 use App\Http\Response\APIResponse;
 use App\Models\Author;
+use App\Models\Book;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Gate;
 use Spatie\DataTransferObject\Exceptions\UnknownProperties;
 
 class AuthorController extends Controller
@@ -63,6 +66,24 @@ class AuthorController extends Controller
         return APIResponse::success(
             __('api.authors.show'),
             new AuthorResource($author)
+        );
+    }
+
+    /**
+     * Получить автора книги
+     *
+     * @param Book $book
+     * @param Author $author
+     * @return JsonResponse
+     * @throws AuthorizationException
+     */
+    public function showForBook(Book $book, Author $author): JsonResponse
+    {
+        $this->authorize('view', [$author, $book]);
+
+        return APIResponse::success(
+            __('api.authors.show_for_book'),
+            (new AuthorResource($author))
         );
     }
 

@@ -33,4 +33,13 @@ class Author extends Model
     {
         return $this->hasMany(Book::class);
     }
+
+    /**
+     * @param Book $book
+     * @return bool
+     */
+    public function hasBook(Book $book): bool
+    {
+        return $this->id === $book->author_id;
+    }
 }
